@@ -36,6 +36,19 @@ typedef struct tokn {
           double realnum; } tokenval;
   } *TOKEN;
 
+
+
+/* TOKEN talloc()           
+  allocate a new token record 
+   should not need when linked in Makefile w printtok
+
+  { TOKEN tok;
+    tok = (TOKEN) calloc(1,sizeof(struct tokn));
+    if ( tok != NULL ) return (tok);
+       else printf("talloc failed.");
+  } 
+*/
+
 /* The following alternative kinds of values share storage in the token
    record.  Only one of the following can be present in a given token.  */
 #define whichval  tokenval.which

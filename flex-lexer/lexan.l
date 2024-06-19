@@ -153,17 +153,6 @@ with         {return(maketoken(RESERVED, WITH));}
       kind of item that was found; this is the return() value.
    2. The value itself.  This is yylval, which points to a TOKEN.   */
 
-
-
-/* Allocate a new token record */
-TOKEN talloc() { 
-    TOKEN tok;
-    tok = (TOKEN) calloc(1,sizeof(struct tokn));
-    if ( tok != NULL ) return (tok);
-       else printf("talloc failed.");
-}
-
-
 /* Make simple tokens. */
 int maketoken(int type, int which)
   {
@@ -191,7 +180,7 @@ int install_id()
      yylval->stringval[i] = c;
     };
   yylval->stringval[n] = '\0';
-          printf("id  %10s   n = %4d\n", yytext, n); 
+          //printf("id  %10s   n = %4d\n", yytext, n); 
   return(IDENTIFIER);
  }
 
@@ -223,7 +212,7 @@ int install_id()
   yylval = (TOKEN) talloc();   /* Make new token, set yylval to point to it */
   yylval->tokentype = NUMBERTOK;
   yylval->basicdt = INTEGER;
-       printf("num %10s   n = %4d\n",yytext,yyleng);
+       //printf("num %10s   n = %4d\n",yytext,yyleng);
   sscanf(yytext, "%d", &num);
   yylval->intval = num;
   return(NUMBER);
@@ -234,7 +223,7 @@ int install_fnum() {  /* Note -- you may use sscanf for this assignment. */
   yylval = (TOKEN) talloc();   /* Make new token, set yylval to point to it */
   yylval->tokentype = NUMBERTOK;
   yylval->basicdt = REAL;
-       printf("num %10s   n = %4d\n",yytext,yyleng); 
+       //printf("num %10s   n = %4d\n",yytext,yyleng); 
   sscanf(yytext, "%f", &fnum);
   yylval->realval = fnum;
   return(NUMBER);

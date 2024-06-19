@@ -6,6 +6,8 @@ echo "..."
 
 flex lexan.l
 
-gcc -o lex lex.yy.c -lfl
+#gcc -o lex lex.yy.c -lfl
+
+make
 
 echo "Run ./lex"
