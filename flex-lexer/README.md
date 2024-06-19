@@ -19,6 +19,8 @@ $ flex lexan.l
 
 $ make
 
+$ ./lexer
+
 # Sample Pascal Input
 
 Test cases are located in /tests.
