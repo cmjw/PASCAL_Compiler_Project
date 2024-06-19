@@ -2,31 +2,23 @@
  
 I am still in the process of rebuilding all of the separate projects.
 
-# Lexasu
-
-Contains a very simple lexer using flex.
-
-# C-Lexer
+## C-Lexer
 
 Lexer in C for Pascal.
 
-See directions in this directory for build instructions.
+See directions in /pascal-c-lexer for build instructions.
 
-# Flex-Lexer
+# Lexer
 
 Lexer using flex for Pascal. 
 
-See directions in this directory for build instructions.
-
-# Pars1y
-
-Conains a very simple parser using yacc/lex.
+See directions in /pascal-lexer for build instructions.
 
 # Parser
 
-TBD. Still compiling and writing build instructions.
-
 Parser using yacc/bison for Pascal.
+
+See directions in /pascal-parser for build instructions.
 
 # Codegen
 
