@@ -6,7 +6,7 @@ The output should show one 1 shift/reduce conflict, which is normal.
 
 # To Build
 
-Run build.hs
+Run build.sh
 
 # To Run
 
