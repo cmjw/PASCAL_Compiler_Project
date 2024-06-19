@@ -33,4 +33,4 @@ y.tab.o: y.tab.c
 	cc -c y.tab.c
 
 clean: 
-	rm *.o lexer parser y.tab.c lex.yy.c
+	rm *.o lexer parser y.tab.c lex.yy.c parse.tab.c parse.tab.h
