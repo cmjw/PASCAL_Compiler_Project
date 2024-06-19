@@ -25,8 +25,6 @@ $ ./lexer
 
 Test cases are located in /tests.
 
-graph1.pas is a simple program used to test the lexer.
-
-Run ./lexer < graph1.pas.
+E.g.: run ./lexer < graph1.pas.
 
 Compare output with graph1.lexer

@@ -8,15 +8,15 @@ Contains a very simple lexer using flex.
 
 # C-Lexer
 
-TBD. Still compiling and writing build instructions.
-
 Lexer in C for Pascal.
+
+See directions in this directory for build instructions.
 
 # Flex-Lexer
 
 Lexer using flex for Pascal. 
 
-See instructions in this directory for build directions.
+See directions in this directory for build instructions.
 
 # Parser
 

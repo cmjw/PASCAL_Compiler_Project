@@ -28,7 +28,7 @@ Driver program for lexer.
 
 Contains routines for printing tokens from lexanc. Also contains talloc() definition.
 
-## Scanner.c
+## scanner.c
 
 Routines for handling input.
 
