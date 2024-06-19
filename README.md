@@ -18,6 +18,10 @@ Lexer using flex for Pascal.
 
 See directions in this directory for build instructions.
 
+# Pars1y
+
+Conains a very simple parser using yacc/lex.
+
 # Parser
 
 TBD. Still compiling and writing build instructions.
