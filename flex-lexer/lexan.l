@@ -1,7 +1,4 @@
-%{    /* lex2.l -- partial lex specification for Pascal    22 Jul 13 */
-
-
-
+%{   
 /* Copyright (c) 2013 Gordon S. Novak Jr. and The University of Texas at Austin
    */
 
@@ -18,23 +15,12 @@
    You should have received a copy of the GNU General Public License
    along with this program; if not, see <http://www.gnu.org/licenses/>. */
 
-/* To use:
-        make lex2
-        lex2
-        x < 3.14            */
-
-/* This file will work as given on a simple input such as:
-   if i<j then x := 3.14
-
-   Copy this file to lexan.l and expand it for your assignment.
-   Use:
-        make lexer
-        lexer <graph1.pas
-   */
 
 #include <ctype.h>
 #include "token.h"
 #include "lexan.h"
+
+#define DEBUG 0
 
 int maketoken(int type, int which);
 int install_id();
@@ -77,7 +63,7 @@ string    '(.*?)'
             }
           }
 
-"+"       {return(maketoken(OPERATOR, PLUS));}
+"+"       {return(maketoken(OPERATOR, PLUS));} /* Operators */
 "-"       {return(maketoken(OPERATOR, MINUS));}
 "*"       {return(maketoken(OPERATOR, TIMES));}
 "/"       {return(maketoken(OPERATOR, DIVIDE));}
@@ -97,7 +83,8 @@ div       {return(maketoken(OPERATOR, DIV));}
 mod       {return(maketoken(OPERATOR, MOD));}
 in        {return(maketoken(OPERATOR, IN));}
 
-","       {return(maketoken(DELIMITER, COMMA));}
+
+","       {return(maketoken(DELIMITER, COMMA));} /* Delimiters */
 ";"       {return(maketoken(DELIMITER, SEMICOLON));}
 ":"       {return(maketoken(DELIMITER, COLON));}
 "("       {return(maketoken(DELIMITER, LPAREN));}
@@ -106,7 +93,8 @@ in        {return(maketoken(OPERATOR, IN));}
 "]"       {return(maketoken(DELIMITER, RBRACKET));}
 ".."      {return(maketoken(DELIMITER, DOTDOT));}  
 
-array        {return(maketoken(RESERVED, ARRAY));}
+
+array        {return(maketoken(RESERVED, ARRAY));} /* Reserved Words */
 begin        {return(maketoken(RESERVED, BEGINBEGIN));}
 case         {return(maketoken(RESERVED, CASE));}
 const        {return(maketoken(RESERVED, CONST));}
@@ -136,7 +124,7 @@ var          {return(maketoken(RESERVED, VAR));}
 while        {return(maketoken(RESERVED, WHILE));}
 with         {return(maketoken(RESERVED, WITH));}
 
-{id}      {return(install_id());}
+{id}         {return(install_id());}
 
 {string}     {return(install_string());}
 
@@ -153,80 +141,97 @@ with         {return(maketoken(RESERVED, WITH));}
       kind of item that was found; this is the return() value.
    2. The value itself.  This is yylval, which points to a TOKEN.   */
 
-/* Make simple tokens. */
-int maketoken(int type, int which)
-  {
-  yylval = (TOKEN) talloc();  /* Make new token, set yylval to point to it */
-  yylval->tokentype = type;
-  if (type == RESERVED)
-     yylval->whichval = which - RESERVED_BIAS;
-     else if (type == OPERATOR)
-             yylval->whichval = which - OPERATOR_BIAS;
-             else if (type == DELIMITER)
-                     yylval->whichval = which - DELIMITER_BIAS;
-                     else yylval->whichval = which;
-  return(which);
-  }
 
-int install_id()
- { int i, c, n;
-  yylval = (TOKEN) talloc();  /* Make new token, set yylval to point to it */
-  yylval->tokentype = IDENTIFIERTOK;
-  n = yyleng;            /* number of characters */
-  if ( n > 15 ) n = 15;
-  for (i = 0; i < n ; i++)
-   { c = yytext[i];
+/* Make simple tokens. */
+int maketoken(int type, int which) {
+   yylval = (TOKEN) talloc();  /* Make new token, set yylval to point to it */
+   yylval->tokentype = type;
+
+   if (type == RESERVED)
+      yylval->whichval = which - RESERVED_BIAS;
+   else if (type == OPERATOR)
+      yylval->whichval = which - OPERATOR_BIAS;
+   else if (type == DELIMITER)
+      yylval->whichval = which - DELIMITER_BIAS;
+   else yylval->whichval = which;
+   
+   return(which);
+}
+
+int install_id() { 
+   int i, c, n;
+   yylval = (TOKEN) talloc();  /* Make new token, set yylval to point to it */
+   yylval->tokentype = IDENTIFIERTOK;
+   n = yyleng;            /* number of characters */
+   
+   if (n > 15) n = 15;
+
+   for (i = 0; i < n ; i++) { 
+      c = yytext[i];
           /* if (islower(c)) c = toupper(c); */ /* to raise to upper case */
      yylval->stringval[i] = c;
-    };
-  yylval->stringval[n] = '\0';
-          //printf("id  %10s   n = %4d\n", yytext, n); 
-  return(IDENTIFIER);
+   }
+
+   yylval->stringval[n] = '\0';
+   
+   if (DEBUG) {printf("id  %10s   n = %4d\n", yytext, n);}
+
+   return(IDENTIFIER);
  }
 
- int install_string()
- { int i, c, n, s = 0;
-  yylval = (TOKEN) talloc();  /* Make new token, set yylval to point to it */
-  yylval->tokentype = STRINGTOK;
-  n = yyleng;            /* number of characters */
-  char mystring[n];
-  for (i = 0; i < n ; i++)
-   { 
-     c = yytext[i];       /* to ignore the first quote mark */
-     if (i == 0 || i == (n - 1)) {
+int install_string() { 
+   int i, c, n, s = 0;
+   yylval = (TOKEN) talloc();  /* Make new token, set yylval to point to it */
+   yylval->tokentype = STRINGTOK;
+   n = yyleng;            /* number of characters */
+   char mystring[n];
+
+   for (i = 0; i < n ; i++) { 
+      c = yytext[i];       
+      if (i == 0 || i == (n - 1)) {
+         /* to ignore the first quote mark */
       } else {
         mystring[s] = c;
         s++;
         if (c == '\'') i++;
-     } 
+      } 
   }
 
   if (s > 15) s = 15;
+
   mystring[s] = '\0';
   strcpy(yylval->stringval, mystring);
-  return(STRING);
- }
 
- int install_int() {  
-  int num;
-  yylval = (TOKEN) talloc();   /* Make new token, set yylval to point to it */
-  yylval->tokentype = NUMBERTOK;
-  yylval->basicdt = INTEGER;
-       //printf("num %10s   n = %4d\n",yytext,yyleng);
-  sscanf(yytext, "%d", &num);
-  yylval->intval = num;
-  return(NUMBER);
- }
+  return(STRING);
+}
+
+int install_int() {  
+   int num;
+   yylval = (TOKEN) talloc();   /* Make new token, set yylval to point to it */
+
+   yylval->tokentype = NUMBERTOK;
+   yylval->basicdt = INTEGER;
+
+   if (DEBUG) {printf("num %10s   n = %4d\n",yytext,yyleng);}
+   sscanf(yytext, "%d", &num);
+   yylval->intval = num;
+
+   return(NUMBER);
+}
 
 int install_fnum() {  /* Note -- you may use sscanf for this assignment. */
-  float fnum;
-  yylval = (TOKEN) talloc();   /* Make new token, set yylval to point to it */
-  yylval->tokentype = NUMBERTOK;
-  yylval->basicdt = REAL;
-       //printf("num %10s   n = %4d\n",yytext,yyleng); 
-  sscanf(yytext, "%f", &fnum);
-  yylval->realval = fnum;
-  return(NUMBER);
- }
+   float fnum;
+   yylval = (TOKEN) talloc();   /* Make new token, set yylval to point to it */
+   yylval->tokentype = NUMBERTOK;
+   yylval->basicdt = REAL;
 
-int yywrap() {  return(1);  }       /* lex may need this. */
+   if (DEBUG) {printf("num %10s   n = %4d\n",yytext,yyleng);} 
+   sscanf(yytext, "%f", &fnum);
+   yylval->realval = fnum;
+
+   return(NUMBER);
+}
+
+
+/* lex may need this. */
+int yywrap() {  return(1);  }       

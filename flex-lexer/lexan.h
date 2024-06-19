@@ -34,14 +34,14 @@ void init_charclass();
 TOKEN gettoken();
 void printtoken(TOKEN tok);
 
-void skipblanks ();
-void initscanner ();
+void skipblanks();
+void initscanner();
 int EOFFLG;
 int CHARCLASS[MAXCHARCLASS];
-TOKEN identifier (TOKEN tok);
-TOKEN getstring (TOKEN tok);
-TOKEN special (TOKEN tok);
-TOKEN number (TOKEN tok);
+TOKEN identifier(TOKEN tok);
+TOKEN getstring(TOKEN tok);
+TOKEN special(TOKEN tok);
+TOKEN number(TOKEN tok);
 
 int yylex();
-void yyerror (char const *s);
+void yyerror(char const *s);

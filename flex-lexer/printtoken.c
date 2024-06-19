@@ -50,38 +50,41 @@ TOKEN talloc() {
        else printf("talloc failed.");
 }
 
-void printtoken(TOKEN tok)
-  {
-    switch (tok->tokentype)
-	{case OPERATOR:
-           printf ("tokentype: %2d  which: %4d   %10s\n",
-	           tok->tokentype, tok->whichval,
-                   opprnt[tok->whichval] );
-           break;
-         case DELIMITER:
-           printf ("tokentype: %2d  which: %4d   %10s\n",
-	           tok->tokentype, tok->whichval,
-                   delprnt[tok->whichval] );
-           break;
-         case RESERVED:
-           printf ("tokentype: %2d  which: %4d   %10s\n",
-	           tok->tokentype, tok->whichval,
-                   resprnt[tok->whichval] );
-           break;
-         case IDENTIFIERTOK: case STRINGTOK:
-           printf ("tokentype: %2d  value:  %16s\n",
-	           tok->tokentype, tok->stringval);
-           break;
-         case NUMBERTOK:
-           switch (tok->basicdt)
-             {case INTEGER:
-                printf ("tokentype: %2d  type:  %4d %12d\n",
-	                tok->tokentype, tok->basicdt, tok->intval);
-                break;
+void printtoken(TOKEN tok) {
+  switch (tok->tokentype) {
+    case OPERATOR:
+      printf ("tokentype: %2d  which: %4d   %10s\n",
+	      tok->tokentype, tok->whichval,
+        opprnt[tok->whichval] );
+      break;
+
+    case DELIMITER:
+      printf ("tokentype: %2d  which: %4d   %10s\n",
+	      tok->tokentype, tok->whichval,
+        delprnt[tok->whichval] );
+      break;
+
+    case RESERVED:
+      printf ("tokentype: %2d  which: %4d   %10s\n",
+	      tok->tokentype, tok->whichval,
+        resprnt[tok->whichval] );
+      break;
+
+    case IDENTIFIERTOK: case STRINGTOK:
+      printf ("tokentype: %2d  value:  %16s\n",
+	      tok->tokentype, tok->stringval);
+      break;
+    
+    case NUMBERTOK:
+      switch (tok->basicdt) {
+        case INTEGER:
+          printf ("tokentype: %2d  type:  %4d %12d\n",
+	          tok->tokentype, tok->basicdt, tok->intval);
+          break;
 	      case REAL:
-                printf ("tokentype: %2d  type:  %4d %12e\n",
-	                tok->tokentype, tok->basicdt, tok->realval);
-                break;
-	      }
-	 }
-  }
+          printf ("tokentype: %2d  type:  %4d %12e\n",
+	          tok->tokentype, tok->basicdt, tok->realval);
+          break;
+	    }
+	}
+}

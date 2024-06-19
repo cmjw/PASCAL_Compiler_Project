@@ -22,7 +22,9 @@
 
 /* 09 Feb 00; 06 Jul 12; 01 Aug 12; 24 Dec 12
  */
-                                 /* token data structure */
+
+
+/* token data structure */
 typedef struct tokn {
   int    tokentype;  /* OPERATOR, DELIMITER, RESERVED, etc */
   int    basicdt;   /* INTEGER, REAL, STRINGTYPE, BOOLETYPE, or POINTER */
@@ -38,16 +40,6 @@ typedef struct tokn {
 
 
 
-/* TOKEN talloc()           
-  allocate a new token record 
-   should not need when linked in Makefile w printtok
-
-  { TOKEN tok;
-    tok = (TOKEN) calloc(1,sizeof(struct tokn));
-    if ( tok != NULL ) return (tok);
-       else printf("talloc failed.");
-  } 
-*/
 
 /* The following alternative kinds of values share storage in the token
    record.  Only one of the following can be present in a given token.  */
@@ -56,14 +48,18 @@ typedef struct tokn {
 #define realval   tokenval.realnum
 #define stringval tokenval.tokenstring
 
-#define OPERATOR       0         /* token types */
+
+ /* token types */
+#define OPERATOR       0        
 #define DELIMITER      1
 #define RESERVED       2
 #define IDENTIFIERTOK  3
 #define STRINGTOK      4
 #define NUMBERTOK      5
 
-#define PLUSOP         1         /* operator numbers */
+
+/* operator numbers */
+#define PLUSOP         1         
 #define MINUSOP        2
 #define TIMESOP        3
 #define DIVIDEOP       4
@@ -92,19 +88,25 @@ typedef struct tokn {
 #define FLOATOP       27
 #define FIXOP         28
 
-#define INTEGER    0             /* number types */
+
+/* number types */
+#define INTEGER    0             
 #define REAL       1
 #define STRINGTYPE 2
 #define BOOLETYPE  3
 #define POINTER    4
 
-#define RECORDALIGN    16        /* record size must be a multiple of this */
+/* record size must be a multiple of this */
+#define RECORDALIGN    16        
 
-#define IDENTIFIER 258          /* token types for use with YACC */
+
+/* token types for use with YACC */
+#define IDENTIFIER 258          
 #define STRING 259
 #define NUMBER 260
 
-   /* subtract OPERATOR_BIAS from the following to get operator numbers */
+
+/* subtract OPERATOR_BIAS from the following to get operator numbers */
 #define PLUS 261
 #define OPERATOR_BIAS  (PLUS - 1)    /* added to Operators */
 #define MINUS 262
@@ -126,7 +128,8 @@ typedef struct tokn {
 #define MOD 278
 #define IN 279
 
-   /* subtract DELIMITER_BIAS from the following to get delimiter numbers */
+
+/* subtract DELIMITER_BIAS from the following to get delimiter numbers */
 #define COMMA 280
 #define DELIMITER_BIAS (COMMA - 1)   /* added to Delimiters */
 #define SEMICOLON 281
@@ -137,7 +140,8 @@ typedef struct tokn {
 #define RBRACKET 286
 #define DOTDOT 287
 
-   /* subtract RESERVED_BIAS from the following to get reserved word numbers */
+
+/* subtract RESERVED_BIAS from the following to get reserved word numbers */
 #define ARRAY 288
 #define RESERVED_BIAS  (ARRAY - 1)   /* added to reserved words */
 #define BEGINBEGIN 289               /* begin */
