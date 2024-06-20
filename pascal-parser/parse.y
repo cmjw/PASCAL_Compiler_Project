@@ -23,29 +23,8 @@
 ; along with this program; if not, see <http://www.gnu.org/licenses/>.
   */
 
-
-/* NOTE:   Copy your lexan.l lexical analyzer to this directory.      */
-
-       /* To use:
-                     make pars1y              has 1 shift/reduce conflict
-                     pars1y                   execute the parser
-                     i:=j .
-                     ^D                       control-D to end input
-
-                     pars1y                   execute the parser
-                     begin i:=j; if i+j then x:=a+b*c else x:=a*b+c; k:=i end.
-                     ^D
-
-                     pars1y                   execute the parser
-                     if x+y then if y+z then i:=j else k:=2.
-                     ^D
-
-           You may copy pars1.y to be parse.y and extend it for your
-           assignment.  Then use   make parser   as above.
-        */
-
-        /* Yacc reports 1 shift/reduce conflict, due to the ELSE part of
-           the IF statement, but Yacc's default resolves it in the right way.*/
+/* Yacc reports 1 shift/reduce conflict, due to the ELSE part of
+  the IF statement, but Yacc's default resolves it in the right way.*/
 
 #include <stdio.h>
 #include <assert.h>
@@ -58,8 +37,7 @@
 #include "parse.h"
 #include "codegen.h"
 
-        /* define the type of the Yacc stack element to be TOKEN */
-
+/* define the type of the Yacc stack element to be TOKEN */
 #define YYSTYPE TOKEN
 
 TOKEN parseresult;
@@ -157,7 +135,6 @@ TOKEN parseresult;
   vdef : id_list COLON type    { instvars($1, $3); }
        ;
 
-  /* TODO */
   type : simple_type
        | ARRAY LBRACKET simple_type_list RBRACKET OF type   { $$ = instarray($3, $6); } 
        | RECORD field_list END                               { $$ = instrec($1, $2); }
@@ -201,7 +178,6 @@ TOKEN parseresult;
   assignment :  variable ASSIGN expression     { $$ = binop($2, $1, $3); }
              ;
 
-  /* TODO */
   variable   :  IDENTIFIER                             { $$ = findid($1); }
              |  variable LBRACKET expr_list RBRACKET   { $$ = arrayref($1, $2, $3, $4); }
              |  variable DOT IDENTIFIER                { $$ = reducedot($1, $2, $3); }
@@ -241,12 +217,6 @@ TOKEN parseresult;
 
 %%
 
-/* You should add your own debugging flags below, and add debugging
-   printouts to your programs.
-
-   You will want to change DEBUG to turn off printouts once things
-   are working.
-  */
 
 #define DEBUG        0             /* set bits here for debugging, 0 = off  */
 #define DB_CONS       0             /* bit to trace cons */
@@ -261,9 +231,6 @@ TOKEN parseresult;
 
 int labelnumber = 0;  /* sequential counter for internal label numbers */
 int labels[50];
-
-   /*  Note: you should add to the above values and insert debugging
-       printouts in your routines similar to those that are shown here.     */
 
 
 /* arrayref processes an array reference a[i]
@@ -305,9 +272,6 @@ TOKEN arrayref(TOKEN arr, TOKEN tok, TOKEN subs, TOKEN tokb) {
 
   // 2D array
   else {
-    if (DEBUG) {
-      printf("2D array\n");
-    }
 
   }
 }
@@ -532,7 +496,6 @@ TOKEN findid(TOKEN tok) { /* the ID token */
   
   
   //if (typ->kind == BASICTYPE || typ->kind == POINTERSYM) {
-  //  printf("************\n");
   //  tok->basicdt = typ->basicdt;
   //}
   
@@ -968,7 +931,7 @@ TOKEN makefuncall(TOKEN tok, TOKEN fn, TOKEN args) {
   // make tok into funcall token
   //TOKEN funcTok = makeop(FUNCALLOP);
 
-  // set basicdt based on args to avoid floating?
+  // set basicdt based on args to avoid floating
 
   //tok = binop(funcTok, fn, args);
 
