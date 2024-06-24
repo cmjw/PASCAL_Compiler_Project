@@ -31,7 +31,7 @@
 #include <ctype.h>
 #include <string.h>
 #include "token.h"
-#include "lexan.h"
+#include "lexer.h"
 #include "symtab.h"
 #include "pprint.h"
 #include "parse.h"
